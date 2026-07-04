@@ -27,13 +27,13 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test Customer',
             'email' => 'customer@shopping-app.test',
             'role' => 'customer',
-            'password' => Hash::make('test123'), // password
+            'password' => Hash::make('customer123'), // password
         ]);
         User::factory()->create([
             'name' => 'Test Shop Owner',
             'email' => 'shop.owner@shopping-app.test',
             'role' => 'shop_owner',
-            'password' => Hash::make('test123'), // password
+            'password' => Hash::make('owner123'), // password
         ]);
     }
 }
