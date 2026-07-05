@@ -17,9 +17,12 @@ return new class extends Migration
                 ->constrained()
                 ->onDelete('cascade'); // or 'restrict', 'set null', etc.
             $table->string('name');
+            $table->string('slug')->unique();
             $table->text('description')->nullable();
+            $table->string('image_path')->nullable()->default('images/products/default.png');
             $table->decimal('price', 10, 2);
             $table->integer('stock')->default(0);
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }
