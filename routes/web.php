@@ -4,8 +4,11 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
+use App\Models\Product;
+
 Route::get('/', function () {
-    return view('welcome');
+    $products = Product::with('category')->where('is_active', true)->latest()->get();
+    return view('welcome', compact('products'));
 });
 
 Route::get('/dashboard', function () {
