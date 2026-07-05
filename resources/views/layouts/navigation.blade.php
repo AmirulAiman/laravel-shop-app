@@ -15,6 +15,36 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    @php
+                        $productsActive = request()->routeIs('products.*');
+                        $productsClasses = $productsActive
+                            ? 'inline-flex items-center px-1 pt-1 border-b-2 border-indigo-400 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out h-16'
+                            : 'inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out h-16';
+                    @endphp
+                    <div class="inline-flex items-center">
+                        <x-dropdown align="left" width="48">
+                            <x-slot name="trigger">
+                                <button class="{{ $productsClasses }}">
+                                    <span>{{ __('Products') }}</span>
+                                    <svg class="ms-1 fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                            </x-slot>
+
+                            <x-slot name="content">
+                                <x-dropdown-link :href="route('products.index')">
+                                    {{ __('Products') }}
+                                </x-dropdown-link>
+                                <x-dropdown-link :href="route('products.create')">
+                                    {{ __('Add new Products') }}
+                                </x-dropdown-link>
+                                <x-dropdown-link :href="route('products.import')">
+                                    {{ __('Import products') }}
+                                </x-dropdown-link>
+                            </x-slot>
+                        </x-dropdown>
+                    </div>
                 </div>
             </div>
 
@@ -70,6 +100,26 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            <div x-data="{ open: {{ request()->routeIs('products.*') ? 'true' : 'false' }} }">
+                <button @click="open = ! open" class="flex w-full items-center justify-between py-2 ps-3 pe-4 border-l-4 {{ request()->routeIs('products.*') ? 'border-indigo-400 text-indigo-700 bg-indigo-50 focus:text-indigo-800 focus:bg-indigo-100 focus:border-indigo-700' : 'border-transparent text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300' }} text-start text-base font-medium transition duration-150 ease-in-out">
+                    <span>{{ __('Products') }}</span>
+                    <svg class="h-4 w-4 transform transition-transform duration-150" :class="{'rotate-180': open}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+
+                <div x-show="open" class="ps-4 space-y-1 bg-gray-50/50 py-1" style="display: none;">
+                    <x-responsive-nav-link :href="route('products.index')" :active="request()->routeIs('products.index')">
+                        {{ __('All Products') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('products.create')" :active="request()->routeIs('products.create')">
+                        {{ __('Add new Products') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('products.import')" :active="request()->routeIs('products.import')">
+                        {{ __('Import products') }}
+                    </x-responsive-nav-link>
+                </div>
+            </div>
         </div>
 
         <!-- Responsive Settings Options -->
