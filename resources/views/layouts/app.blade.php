@@ -33,4 +33,19 @@
             </main>
         </div>
     </body>
+    @if(session('success') || session('error'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            Toastify({
+                text: "{{ session('success') ?? session('error') }}",
+                duration: 3000,
+                gravity: "top",
+                position: "right",
+                style: {
+                    background: "{{ session('success') ? '#22c55e' : '#ef4444' }}",
+                },
+            }).showToast();
+        });
+    </script>
+@endif
 </html>
