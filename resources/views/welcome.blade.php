@@ -37,8 +37,10 @@
     <!-- Header / Navigation -->
     <header
         class="w-full bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 shadow-sm sticky top-0 z-50">
-            @include('layouts.navigation')
+        @include('layouts.navigation')
     </header>
+
+    <x-toast/>
 
     <!-- Main Body -->
     <main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -120,11 +122,16 @@
                                         @endif
                                     </p>
                                 </div>
-                                <button
-                                    class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-400 text-white rounded-md text-sm font-semibold transition duration-150 shadow-sm"
-                                    {{ $product->stock === 0 ? 'disabled' : '' }}>
-                                    {{ __('Add to Cart') }}
-                                </button>
+                                <form action="{{ route('carts.store') }}" method="post" class="px-4 pb-4">
+                                    @csrf
+                                    <input type="hidden" name="quantity" value="1" />
+                                    <input type="hidden" name="product_id" value="{{ $product->id }}" />
+                                    <button type="submit"
+                                        class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-400 text-white rounded-md text-sm font-semibold transition duration-150 shadow-sm"
+                                        {{ $product->stock === 0 ? 'disabled' : '' }}>
+                                        {{ __('Add to Cart') }}
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -151,7 +158,6 @@
             &copy; {{ date('Y') }} {{ config('app.name', 'ShoppingApp') }}. All rights reserved.
         </div>
     </footer>
-
 </body>
 
 </html>
