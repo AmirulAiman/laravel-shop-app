@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\CartItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
@@ -13,7 +14,7 @@ class CartController extends Controller
      */
     public function index()
     {
-        $cart = auth()->user()->cart()->with('items.product')->first();
+        $cart = Cart::with('items.product')->where('user_id', Auth::id())->first(); //TODO:
         return view('cart.index', compact('cart'));
     }
 
@@ -26,7 +27,7 @@ class CartController extends Controller
             'product_id' => 'required|exists:products,id',
             'quantity' => 'required|integer|min:1',
         ]);
-        $cart = auth()->user()->cart()->firstOrCreate([]);
+        $cart = Cart::firstOrCreate(['user_id' => Auth::id()]); //TODO:
         $item = $cart->items()->where('product_id', $request->product_id)->first();
         if($item){
             $item->quantity += $request->quantity;
