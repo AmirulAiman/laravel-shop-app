@@ -10,7 +10,7 @@ use App\Models\Product;
 Route::get('/', function () {
     $products = Product::with('category')->where('is_active', true)->latest()->get();
     return view('welcome', compact('products'));
-});
+})->name('home');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
