@@ -46,7 +46,7 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <!-- Price -->
                             <div>
-                                <x-input-label for="price" :value="__('Price ($)')" />
+                                <x-input-label for="price" :value="__('Price (RM)')" />
                                 <x-text-input id="price" name="price" type="number" step="0.01" min="0" class="mt-1 block w-full" :value="old('price', $product->price)" required />
                                 <x-input-error class="mt-2" :messages="$errors->get('price')" />
                             </div>
