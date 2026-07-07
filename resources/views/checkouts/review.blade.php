@@ -42,13 +42,13 @@
                                             {{ $cartItem->product->name }}
                                         </p>
                                         <p class="font-mono text-xs text-gray-500 mt-1">
-                                            {{ $cartItem->quantity }} &times; ${{ number_format($cartItem->product->price, 2) }}
+                                            {{ $cartItem->quantity }} &times; RM {{ number_format($cartItem->product->price, 2) }}
                                         </p>
                                     </div>
 
                                     {{-- line total --}}
                                     <div class="font-mono text-sm text-[#1A1A1A] tabular-nums">
-                                        ${{ number_format($cartItem->quantity * $cartItem->product->price, 2) }}
+                                        RM {{ number_format($cartItem->quantity * $cartItem->product->price, 2) }}
                                     </div>
                                 </li>
                             @endforeach
@@ -78,7 +78,7 @@
                         <dl class="space-y-3 font-mono text-sm">
                             <div class="flex justify-between text-gray-600">
                                 <dt>Subtotal</dt>
-                                <dd class="tabular-nums">${{ number_format($total, 2) }}</dd>
+                                <dd class="tabular-nums">RM {{ number_format($total, 2) }}</dd>
                             </div>
                             <div class="flex justify-between text-gray-600">
                                 <dt>Shipping</dt>
@@ -89,7 +89,7 @@
                         <div class="border-t border-dashed border-[#D8D5CE] mt-4 pt-4 flex justify-between items-baseline">
                             <dt class="font-sans text-sm font-medium text-[#1A1A1A]">Total</dt>
                             <dd class="font-mono text-xl font-semibold text-[#1A1A1A] tabular-nums">
-                                ${{ number_format($total, 2) }}
+                                RM {{ number_format($total, 2) }}
                             </dd>
                         </div>
 

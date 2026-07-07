@@ -109,8 +109,8 @@
                             <div
                                 class="mt-auto pt-4 border-t border-gray-50 dark:border-gray-700/50 flex items-center justify-between">
                                 <div>
-                                    <span class="text-2xl font-bold text-gray-900 dark:text-white">
-                                        ${{ number_format($product->price, 2) }}
+                                    <span class="text-lg font-bold text-gray-900 dark:text-white">
+                                        RM {{ number_format($product->price, 2) }}
                                     </span>
                                     <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
                                         @if ($product->stock > 0)

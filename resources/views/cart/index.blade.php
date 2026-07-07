@@ -76,7 +76,7 @@
                                                 </form>
 
                                                 <p class="w-20 text-right font-medium">
-                                                    ${{ number_format($item->product->price * $item->quantity, 2) }}
+                                                    RM {{ number_format($item->product->price * $item->quantity, 2) }}
                                                 </p>
 
                                                 {{-- Remove item --}}
@@ -107,7 +107,7 @@
                             <div class="mt-6 flex justify-between items-center">
                                 <p class="text-lg font-bold">
                                     Total:
-                                    ${{ number_format($cart->items->sum(fn($item) => $item->product->price * $item->quantity), 2) }}
+                                    RM {{ number_format($cart->items->sum(fn($item) => $item->product->price * $item->quantity), 2) }}
                                 </p>
                                 <button type="submit" form="checkout-form"
                                     class="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md text-sm font-semibold">
