@@ -30,6 +30,7 @@
                                     Quantity</th>
                             </tr>
                         </thead>
+                         <form action="{{ route('checkout.review') }}" method="get" id="checkout-form"></form>
                         <tbody class="bg-white divide-y divide-gray-200">
                             @if (!$cart || $cart->items->isEmpty())
                                 <tr>
@@ -40,10 +41,10 @@
                             @else
                                 @forelse ($cart->items as $item)
                                     <tr>
-                                        {{-- <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                             <input type="checkbox" name="selected[]" value="{{ $item->id }}"
                                                 form="checkout-form" class="h-5 w-5 text-indigo-600 rounded">
-                                        </td> --}}
+                                        </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                             <img src="{{ $item->product->image_path ? asset('storage/' . $item->product->image_path) : asset('images/products/default.png') }}"
                                                 alt="{{ $item->product->name }}"

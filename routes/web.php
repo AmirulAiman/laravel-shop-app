@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 use App\Models\Product;
@@ -13,11 +15,11 @@ Route::get('/', function () {
     return view('welcome', compact('products'));
 })->name('home');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    Route::middleware(['auth', 'verified'])->group(function () {
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    });
     Route::get('products/import', [ProductController::class, 'import'])->name('products.import');
     Route::resource('products', ProductController::class);
     Route::group(['prefix' => 'carts'], function () {
@@ -25,6 +27,10 @@ Route::middleware('auth')->group(function () {
         Route::post('/', [CartController::class, 'store'])->name('carts.store');
         Route::patch('/{item}', [CartController::class, 'update'])->name('carts.update');
         Route::delete('/{item}', [CartController::class, 'destroy'])->name('carts.destroy');
+    });
+    Route::group(['prefix' => 'checkout'], function() {
+        Route::get('/review',[CheckoutController::class, 'review'])->name('checkout.review');
+        Route::post('/store',[CheckoutController::class, 'store'])->name('checkout.store');
     });
     Route::resource('users', UserController::class);
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
