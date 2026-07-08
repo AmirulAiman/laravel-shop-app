@@ -1,0 +1,1 @@
+<span class="{{ $color }} px-2 py-1 text-md font-bold rounded-full">{{  ucfirst($status) }}</span>

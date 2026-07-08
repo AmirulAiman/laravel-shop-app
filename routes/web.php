@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 
 use App\Models\Product;
@@ -31,6 +32,9 @@ Route::middleware('auth')->group(function () {
     Route::group(['prefix' => 'checkout'], function() {
         Route::get('/review',[CheckoutController::class, 'review'])->name('checkout.review');
         Route::post('/store',[CheckoutController::class, 'store'])->name('checkout.store');
+    });
+    Route::group(['prefix' => 'order'], function() {
+        Route::get('/update-status',[OrderController::class, 'updateStatus'])->name('order.update-status');
     });
     Route::resource('users', UserController::class);
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

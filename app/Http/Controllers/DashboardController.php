@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\User;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -16,10 +19,29 @@ class DashboardController extends Controller
         $role = Auth::user()->role;
         if ($role === 'admin') {
             // Admin dashboard logic
-            $orders = Order::with('items.product')->latest()->get();
-            return view('dashboard.index', compact('orders'));
+            $totalUsers = User::count();
+            $totalNewUsers = User::where('created_at', '>=', Carbon::now()->subDays(7))->count();
+            
+            $totalCustomers = User::where('role', 'customer')->count();
+            $totalNewCustomers = User::where('role', 'customer')->where('created_at', '>=', Carbon::now()->subDays(7))->count();
+            
+            $totalSellers = User::where('role', 'shop_owner')->count();
+            $totalNewSellers = User::where('role', 'shop_owner')->where('created_at', '>=', Carbon::now()->subDays(7))->count();
+            
+            $totalProducts = Product::count();
+            $orderCreatedWithinTheWeek = Order::whereBetween('created_at', [
+                Carbon::now()->startOfWeek(),
+                Carbon::now()->endOfWeek()
+            ])->count();
+            $orders = Order::with('items.product')->whereBetween('created_at', [
+                Carbon::now()->startOfWeek(),
+                Carbon::now()->endOfWeek()
+            ])->latest()->get();
+
+            return view('dashboard.index', compact('totalUsers', 'totalNewUsers', 'totalCustomers', 'totalNewCustomers', 'totalSellers', 'totalNewSellers', 'totalProducts', 'orderCreatedWithinTheWeek', 'orders'));
         } elseif ($role === 'shop_owner') {
             //TODO: Implement shop owner dashboard logic
+            $orders = Order::with('items.product')->latest()->get();
             return view('dashboard.index');
         } else {
             // Customer dashboard logic
