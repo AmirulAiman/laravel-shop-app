@@ -95,21 +95,24 @@
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 @auth
-                    <a href="{{  route('carts.index')  }}"
-                        class="relative inline-flex items-center p-2 me-2 text-gray-500 hover:text-gray-700 transition duration-150 ease-in-out">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="{{ request()->routeIs('carts.index') ? 'true' : 'none' }}" viewBox="0 0 24 24"
-                            stroke="currentColor" stroke-width="1.5">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 1.87-4.653 2.174-7.033.075-.585-.42-1.083-1.011-1.083H5.25M7.5 14.25L5.106 5.272M7.5 14.25L5.25 4.5M7.5 18.75a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm10.5 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
-                        </svg>
+                    @if(Auth::user()->role != 'admin')
+                        <a href="{{  route('carts.index')  }}"
+                            class="relative inline-flex items-center p-2 me-2 text-gray-500 hover:text-gray-700 transition duration-150 ease-in-out">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
+                                fill="{{ request()->routeIs('carts.index') ? 'true' : 'none' }}" viewBox="0 0 24 24"
+                                stroke="currentColor" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 1.87-4.653 2.174-7.033.075-.585-.42-1.083-1.011-1.083H5.25M7.5 14.25L5.106 5.272M7.5 14.25L5.25 4.5M7.5 18.75a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm10.5 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                            </svg>
 
-                        @if (($cartCount ?? 0) > 0)
-                            <span
-                                class="absolute -top-1 -right-1 flex items-center justify-center h-5 w-5 rounded-full bg-indigo-600 text-white text-xs font-semibold">
-                                {{ $cartCount }}
-                            </span>
-                        @endif
-                    </a>
+                            @if (($cartCount ?? 0) > 0)
+                                <span
+                                    class="absolute -top-1 -right-1 flex items-center justify-center h-5 w-5 rounded-full bg-indigo-600 text-white text-xs font-semibold">
+                                    {{ $cartCount }}
+                                </span>
+                            @endif
+                        </a>
+                    @endif
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             <button
@@ -136,9 +139,8 @@
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
 
-                                <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault();
-                                                this.closest('form').submit();">
+                                <x-dropdown-link :href="route('logout')" onclick="event.preventDefault();
+                                                    this.closest('form').submit();">
                                     {{ __('Log Out') }}
                                 </x-dropdown-link>
                             </form>
@@ -198,13 +200,16 @@
                         </button>
 
                         <div x-show="open" class="ps-4 space-y-1 bg-gray-50/50 py-1" style="display: none;">
-                            <x-responsive-nav-link :href="route('products.index')" :active="request()->routeIs('products.index')">
+                            <x-responsive-nav-link :href="route('products.index')"
+                                :active="request()->routeIs('products.index')">
                                 {{ __('All Products') }}
                             </x-responsive-nav-link>
-                            <x-responsive-nav-link :href="route('products.create')" :active="request()->routeIs('products.create')">
+                            <x-responsive-nav-link :href="route('products.create')"
+                                :active="request()->routeIs('products.create')">
                                 {{ __('Add new Products') }}
                             </x-responsive-nav-link>
-                            <x-responsive-nav-link :href="route('products.import')" :active="request()->routeIs('products.import')">
+                            <x-responsive-nav-link :href="route('products.import')"
+                                :active="request()->routeIs('products.import')">
                                 {{ __('Import products') }}
                             </x-responsive-nav-link>
                         </div>
@@ -244,9 +249,8 @@
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
 
-                        <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
-                                        this.closest('form').submit();">
+                        <x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault();
+                                            this.closest('form').submit();">
                             {{ __('Log Out') }}
                         </x-responsive-nav-link>
                     </form>

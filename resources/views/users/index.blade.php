@@ -18,7 +18,7 @@
                 </div>
             @endif
 
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <div class="flex items-center justify-between mb-6">
                         <h1 class="text-2xl font-semibold text-gray-800">Registered Users</h1>
@@ -26,61 +26,40 @@
                     </div>
 
                     <div class="bg-white shadow rounded-lg overflow-hidden">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
-                                <tr>
-                                    <th
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Name
-                                    </th>
-                                    <th
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Email
-                                    </th>
-                                    <th
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Role
-                                    </th>
-                                    <th
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Joined</th>
+                        <x-table :headers="['Name', 'Email', 'Role', 'Joined']">
+                            @forelse ($users as $user)
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                                        {{ $user->name }}
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-gray-600">
+                                        {{ $user->email }}
+                                    </td>
+                                    <td class="px-6 py-4 text-sm">
+                                        @php
+                                            $roleColors = [
+                                                'admin' => 'bg-purple-100 text-purple-700',
+                                                'shop_owner' => 'bg-blue-100 text-blue-700',
+                                                'customer' => 'bg-gray-100 text-gray-700',
+                                            ];
+                                            $colorClass = $roleColors[$user->role] ?? 'bg-gray-100 text-gray-700';
+                                        @endphp
+                                        <span class="px-2 py-1 rounded-full text-xs font-medium {{ $colorClass }}">
+                                            {{ ucfirst(str_replace('_', ' ', $user->role)) }}
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-gray-600">
+                                        {{ $user->created_at->format('M d, Y') }}
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-100">
-                                @forelse ($users as $user)
-                                    <tr class="hover:bg-gray-50">
-                                        <td class="px-6 py-4 text-sm font-medium text-gray-900">
-                                            {{ $user->name }}
-                                        </td>
-                                        <td class="px-6 py-4 text-sm text-gray-600">
-                                            {{ $user->email }}
-                                        </td>
-                                        <td class="px-6 py-4 text-sm">
-                                            @php
-                                                $roleColors = [
-                                                    'admin' => 'bg-purple-100 text-purple-700',
-                                                    'shop_owner' => 'bg-blue-100 text-blue-700',
-                                                    'customer' => 'bg-gray-100 text-gray-700',
-                                                ];
-                                                $colorClass = $roleColors[$user->role] ?? 'bg-gray-100 text-gray-700';
-                                            @endphp
-                                            <span class="px-2 py-1 rounded-full text-xs font-medium {{ $colorClass }}">
-                                                {{ ucfirst(str_replace('_', ' ', $user->role)) }}
-                                            </span>
-                                        </td>
-                                        <td class="px-6 py-4 text-sm text-gray-600">
-                                            {{ $user->created_at->format('M d, Y') }}
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="4" class="px-6 py-8 text-center text-sm text-gray-500">
-                                            No users found.
-                                        </td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
+                            @empty
+                                <tr>
+                                    <td colspan="4" class="px-6 py-8 text-center text-sm text-gray-500">
+                                        No users found.
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </x-table>
                     </div>
 
                     <div class="mt-6">

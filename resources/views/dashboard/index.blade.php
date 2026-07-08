@@ -7,7 +7,7 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <!-- Metric Cards -->
+        @if(Auth::user()->role == 'admin')
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 <x-state-card label="Total Users" :value="number_format($totalUsers)"
                     change="Total {{ $totalNewUsers }} this weeks" trend="up">
@@ -49,7 +49,7 @@
                     </x-slot:icon>
                 </x-state-card>
             </div>
-
+        @endif
             {{-- Recent Order --}}
             <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 mt-4">
                 <div class="flex justify-between items-center mb-4">
