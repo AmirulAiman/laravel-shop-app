@@ -20,6 +20,7 @@ Route::get('/', function () {
 Route::middleware('auth')->group(function () {
     Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::patch('/dashboard/{orderItem}', [DashboardController::class, 'update'])->name('admin.dashboard.update');
     });
     Route::get('products/import', [ProductController::class, 'import'])->name('products.import');
     Route::resource('products', ProductController::class);

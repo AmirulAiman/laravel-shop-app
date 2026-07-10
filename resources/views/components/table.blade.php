@@ -9,6 +9,9 @@
                         {{ $header }}
                     </th>
                 @endforeach
+                @if(Auth::user()->role == 'admin')
+                    <th>Update</th>
+                @endif
             </tr>
         </thead>
         <tbody class="divide-y divide-gray-100">
