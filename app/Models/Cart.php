@@ -8,7 +8,7 @@ class Cart extends Model
 {
     //
 
-    protected $flillable = [
+    protected $fillable = [
         'user_id',
     ];
 

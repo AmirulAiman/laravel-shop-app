@@ -89,6 +89,7 @@ class DashboardController extends Controller
         $validated = $request->validate([
             'status' => 'required|in:pending,processing,shipped,delivered,cancelled',
         ]);
+        // $this->authorize('update', $order, $validated['status']);
         $order->update(['status' => $validated['status']]);
         $order->save();
 

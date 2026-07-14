@@ -71,45 +71,82 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm">
                                         <x-status-badge :status="$item->status"></x-status-badge>
                                     </td>
-                                    <td x-data="{open:false, selected: '{{ $item->status }}'}"
-                                        class="px-6 py-4 whitespace-nowrap text-sm">
-                                        <button @click="open = true"
-                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium hover:opacity-80 bg-blue-500 text-gray-300">
-                                            {{ __('Update Status') }}
-                                        </button>
-                                        <div x-show="open" x-cloak
-                                            class="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
-                                            @click.self="open = false">
-                                            <div class="bg-white rounded-lg shadow-lg p-6 w-80">
-                                                <h3 class="text-sm font-semibold text-gray-900 mb-4">Update Order Status</h3>
+                                    @if(Auth::user()->isAdmin())
+                                        <td x-data="{open:false, selected: '{{ $item->status }}'}"
+                                            class="px-6 py-4 whitespace-nowrap text-sm">
+                                            <button @click="open = true"
+                                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium hover:opacity-80 bg-blue-500 text-gray-300">
+                                                {{ __('Update Status') }}
+                                            </button>
+                                            <div x-show="open" x-cloak
+                                                class="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
+                                                @click.self="open = false">
+                                                <div class="bg-white rounded-lg shadow-lg p-6 w-80">
+                                                    <h3 class="text-sm font-semibold text-gray-900 mb-4">Update Order Status</h3>
 
-                                                <form method="POST" action="{{ route('admin.dashboard.update', $item->id) }}">
-                                                    @csrf
-                                                    @method('PATCH')
+                                                    <form method="POST" action="{{ route('dashboard.update', $item->id) }}">
+                                                        @csrf
+                                                        @method('PATCH')
 
-                                                    <select name="status" x-model="selected"
-                                                        class="w-full border-gray-300 rounded-md text-sm mb-4">
-                                                        <option value="pending">Pending</option>
-                                                        <option value="processing">Processing</option>
-                                                        <option value="shipped">Shipped</option>
-                                                        <option value="delivered">Delivered</option>
-                                                        <option value="cancelled">Cancelled</option>
-                                                    </select>
+                                                        <select name="status" x-model="selected"
+                                                            class="w-full border-gray-300 rounded-md text-sm mb-4">
+                                                            <option value="pending">Pending</option>
+                                                            <option value="processing">Processing</option>
+                                                            <option value="shipped">Shipped</option>
+                                                        </select>
 
-                                                    <div class="flex justify-end gap-2">
-                                                        <button type="button" @click="open = false"
-                                                            class="px-3 py-1.5 text-sm text-gray-600">
-                                                            Cancel
-                                                        </button>
-                                                        <button type="submit"
-                                                            class="px-3 py-1.5 text-sm bg-indigo-600 text-white rounded-md">
-                                                            Confirm
-                                                        </button>
-                                                    </div>
-                                                </form>
+                                                        <div class="flex justify-end gap-2">
+                                                            <button type="button" @click="open = false"
+                                                                class="px-3 py-1.5 text-sm text-gray-600">
+                                                                Cancel
+                                                            </button>
+                                                            <button type="submit"
+                                                                class="px-3 py-1.5 text-sm bg-indigo-600 text-white rounded-md">
+                                                                Confirm
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </td>
+                                        </td>
+                                    @elseif(Auth::user()->isCustomer() && in_array($item->status,['delivered','cancelled']))
+                                        <td x-data="{open:false, selected: '{{ $item->status }}'}"
+                                            class="px-6 py-4 whitespace-nowrap text-sm">
+                                            <button @click="open = true"
+                                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium hover:opacity-80 bg-blue-500 text-gray-300">
+                                                {{ __('Update Status') }}
+                                            </button>
+                                            <div x-show="open" x-cloak
+                                                class="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
+                                                @click.self="open = false">
+                                                <div class="bg-white rounded-lg shadow-lg p-6 w-80">
+                                                    <h3 class="text-sm font-semibold text-gray-900 mb-4">Update Order Status</h3>
+
+                                                    <form method="POST" action="{{ route('dashboard.update', $item->id) }}">
+                                                        @csrf
+                                                        @method('PATCH')
+
+                                                        <select name="status" x-model="selected"
+                                                            class="w-full border-gray-300 rounded-md text-sm mb-4">
+                                                            <option value="delivered">Delivered</option>
+                                                            <option value="cancelled">Cancelled</option>
+                                                        </select>
+
+                                                        <div class="flex justify-end gap-2">
+                                                            <button type="button" @click="open = false"
+                                                                class="px-3 py-1.5 text-sm text-gray-600">
+                                                                Cancel
+                                                            </button>
+                                                            <button type="submit"
+                                                                class="px-3 py-1.5 text-sm bg-indigo-600 text-white rounded-md">
+                                                                Confirm
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    @endif
 
                                 </tr>
                             @endforeach
