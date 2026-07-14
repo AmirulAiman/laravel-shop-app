@@ -34,10 +34,8 @@ class DashboardController extends Controller
                 Carbon::now()->startOfWeek(),
                 Carbon::now()->endOfWeek()
             ])->count();
-            $orders = Order::with('items.product')->whereBetween('created_at', [
-                Carbon::now()->startOfWeek(),
-                Carbon::now()->endOfWeek()
-            ])->latest()->get();
+
+            $orders = Order::with('items.product')->latest()->get();
 
             return view('dashboard.index', compact('totalUsers', 'totalNewUsers', 'totalCustomers', 'totalNewCustomers', 'totalSellers', 'totalNewSellers', 'totalProducts', 'orderCreatedWithinTheWeek', 'orders'));
         } elseif ($role === 'shop_owner') {
@@ -91,8 +89,8 @@ class DashboardController extends Controller
         $validated = $request->validate([
             'status' => 'required|in:pending,processing,shipped,delivered,cancelled',
         ]);
-
         $order->update(['status' => $validated['status']]);
+        $order->save();
 
         return back()->with('success', 'Order status updated.');
     }
