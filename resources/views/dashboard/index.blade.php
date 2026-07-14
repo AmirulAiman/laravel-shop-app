@@ -109,7 +109,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                    @elseif(Auth::user()->isCustomer() && in_array($item->status,['delivered','cancelled']))
+                                    @elseif(Auth::user()->isCustomer() && $item->status == 'shipped'))
                                         <td x-data="{open:false, selected: '{{ $item->status }}'}"
                                             class="px-6 py-4 whitespace-nowrap text-sm">
                                             <button @click="open = true"
