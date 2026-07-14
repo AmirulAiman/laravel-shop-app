@@ -38,6 +38,8 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('owner123'), // password
         ]);
 
+        $customers = User::factory(10)->create();
+        
         $categories = Category::factory(5)->create();
         Product::factory()
             ->count(50)
