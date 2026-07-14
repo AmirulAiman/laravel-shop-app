@@ -10,9 +10,10 @@ use Illuminate\Support\Facades\DB;
 class CheckoutController extends Controller
 {
     public function review(Request $request){
-        $selectedCartItem = $request->input('selected');
-
-        $items = Auth::user()->cart->items()->whereIn('id', $selectedCartItem)->get();
+        $validated = $request->validate([
+            'selected' => 'required|filled',
+        ]);
+        $items = Auth::user()->cart->items()->whereIn('id', $validated['selected'])->get();
         $total = $items->sum(function ($item) {
             return $item->product->price * $item->quantity;
         });

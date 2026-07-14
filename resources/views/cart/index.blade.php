@@ -4,6 +4,8 @@
             {{ __('Carts') }}
         </h2>
     </x-slot>
+    
+    <x-toast />
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -30,7 +32,7 @@
                                     Quantity</th>
                             </tr>
                         </thead>
-                         <form action="{{ route('checkout.review') }}" method="get" id="checkout-form"></form>
+                        <form action="{{ route('checkout.review') }}" method="get" id="checkout-form"></form>
                         <tbody class="bg-white divide-y divide-gray-200">
                             @if (!$cart || $cart->items->isEmpty())
                                 <tr>
@@ -67,10 +69,9 @@
                                                     class="flex items-center gap-2">
                                                     @csrf
                                                     @method('PATCH')
-                                                    <input type="number" name="quantity" value="{{ $item->quantity }}"
-                                                        min="1" class="w-16 border-gray-300 rounded-md text-sm">
-                                                    <button type="submit"
-                                                        class="text-sm text-indigo-600 hover:underline">
+                                                    <input type="number" name="quantity" value="{{ $item->quantity }}" min="1"
+                                                        class="w-16 border-gray-300 rounded-md text-sm">
+                                                    <button type="submit" class="text-sm text-indigo-600 hover:underline">
                                                         Update
                                                     </button>
                                                 </form>
@@ -107,7 +108,8 @@
                             <div class="mt-6 flex justify-between items-center">
                                 <p class="text-lg font-bold">
                                     Total:
-                                    RM {{ number_format($cart->items->sum(fn($item) => $item->product->price * $item->quantity), 2) }}
+                                    RM
+                                    {{ number_format($cart->items->sum(fn($item) => $item->product->price * $item->quantity), 2) }}
                                 </p>
                                 <button type="submit" form="checkout-form"
                                     class="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md text-sm font-semibold">
