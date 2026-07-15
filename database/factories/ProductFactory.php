@@ -22,12 +22,12 @@ class ProductFactory extends Factory
         Storage::fake('public');
 
         return [
-            'category_id' => Category::inRandomOrder()->first()->id,
             'name' => ucwords($name),
             'slug' => Str::slug($name),
             'description' => fake()->paragraph(),
             'price' => fake()->randomFloat(2, 5, 500),
             'stock' => fake()->numberBetween(0, 100),
+            'category_id' => Category::inRandomOrder()->first()->id,
             'is_active' => true,
         ];
     }

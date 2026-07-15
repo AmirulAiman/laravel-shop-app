@@ -22,7 +22,10 @@ class navigation extends Component
      */
     public function render(): View|Closure|string
     {
-        $cartCount = Auth::user()->cart->items()->count();
+        $cartCount = 0;
+        if(Auth::check()){
+            $cartCount = Auth::user()->cart?->items()->count() ?? 0;
+        }
         return view('layouts.navigation',compact('cartCount'));
     }
 }
