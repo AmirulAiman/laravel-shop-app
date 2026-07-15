@@ -10,7 +10,7 @@
                     </th>
                 @endforeach
                 @if(Auth::user()->role == 'admin')
-                    <th>Update</th>
+                    <th class="py-3 px-4 text-xs text-right font-semibold text-gray-500 uppercase tracking-wider">Actions</th>
                 @endif
             </tr>
         </thead>

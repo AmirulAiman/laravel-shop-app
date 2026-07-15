@@ -47,6 +47,9 @@
                                         <x-dropdown-link :href="route('products.create')">
                                             {{ __('Add new Products') }}
                                         </x-dropdown-link>
+                                        <x-dropdown-link :href="route('categories.index')">
+                                            {{ __('Product Category') }}
+                                        </x-dropdown-link>
                                         <x-dropdown-link :href="route('products.import')">
                                             {{ __('Import products') }}
                                         </x-dropdown-link>
